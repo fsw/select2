@@ -408,7 +408,9 @@ define([
     }
     if (cancel !== true) {
       if (this.options.get('tags')) {
-        this.trigger('results:select');
+	if (!(this.options.get('allowClear') && this.dropdown.$search.val() === '')) {
+	  this.trigger('results:select');
+	}
       }
     }
     this.trigger('close');
