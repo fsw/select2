@@ -1503,8 +1503,12 @@ S2.define('select2/selection/multiple',[
 
     $selection.addClass('select2-selection--multiple');
 
-    $selection.html(
+    /*$selection.html(
       '<ul class="select2-selection__rendered"></ul>'
+    );*/
+
+    $selection.html(
+      '<div class="select2-selection__rendered"></div>'
     );
 
     return $selection;
@@ -1565,6 +1569,15 @@ S2.define('select2/selection/multiple',[
       return;
     }
 
+    var strings = [];
+    for (var d = 0; d < data.length; d++) {
+      strings[d] = this.display(data[d]);
+    }
+    this.$selection
+	.find('.select2-selection__rendered')
+	.append(strings.join(', '));
+
+    /*
     var $selections = $();
 
     for (var d = 0; d < data.length; d++) {
@@ -1582,6 +1595,7 @@ S2.define('select2/selection/multiple',[
     }
 
     this.$selection.find('.select2-selection__rendered').append($selections);
+    */
   };
 
   return MultipleSelection;
@@ -1697,9 +1711,7 @@ S2.define('select2/selection/allowClear',[
     }
 
     var $remove = $(
-      '<span class="select2-selection__clear">' +
-        '&times;' +
-      '</span>'
+      '<span class="select2-selection__clear"></span>'
     );
     $remove.data('data', data);
 
@@ -4011,8 +4023,10 @@ S2.define('select2/dropdown/attachBody',[
       bottom: $window.scrollTop() + $window.height()
     };
 
-    var enoughRoomAbove = viewport.top < (offset.top - dropdown.height);
-    var enoughRoomBelow = viewport.bottom > (offset.bottom + dropdown.height);
+    var enoughRoomAbove = false;
+    //viewport.top < (offset.top - dropdown.height);
+    var enoughRoomBelow = true;
+    //viewport.bottom > (offset.bottom + dropdown.height);
 
     var css = {
       left: offset.left,
@@ -4155,7 +4169,11 @@ S2.define('select2/dropdown/closeOnSelect',[
     var originalEvent = evt.originalEvent;
 
     // Don't close if the control key is being held
-    if (originalEvent && originalEvent.ctrlKey) {
+    //if (originalEvent && originalEvent.ctrlKey) {
+    //  return;
+    //}
+    // Don't close if this is the multiselect
+    if (this.options.get('multiple')) {
       return;
     }
 
@@ -4707,7 +4725,7 @@ S2.define('select2/core',[
     }
 
     this.$element = $element;
-
+    //alert('asd');
     this.id = this._generateId($element);
 
     options = options || {};
@@ -5010,7 +5028,11 @@ S2.define('select2/core',[
           self.trigger('results:next');
 
           evt.preventDefault();
-        } else if (key === KEYS.ESC || key === KEYS.TAB) {
+        } else if (key === KEYS.ESC) {
+	  self.close(true);
+
+          evt.preventDefault();
+	} else if (key === KEYS.TAB) {
           self.close();
 
           evt.preventDefault();
@@ -5095,11 +5117,13 @@ S2.define('select2/core',[
     this.trigger('open');
   };
 
-  Select2.prototype.close = function () {
+  Select2.prototype.close = function (cancel) {
     if (!this.isOpen()) {
       return;
     }
-
+    if (cancel !== true){
+      this.trigger('results:select');
+    }
     this.trigger('close');
   };
 

@@ -21,7 +21,11 @@ define([
     var originalEvent = evt.originalEvent;
 
     // Don't close if the control key is being held
-    if (originalEvent && originalEvent.ctrlKey) {
+    //if (originalEvent && originalEvent.ctrlKey) {
+    //  return;
+    //}
+    // Don't close if this is the multiselect
+    if (this.options.get('multiple')) {
       return;
     }
 

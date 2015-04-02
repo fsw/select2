@@ -14,8 +14,12 @@ define([
 
     $selection.addClass('select2-selection--multiple');
 
-    $selection.html(
+    /*$selection.html(
       '<ul class="select2-selection__rendered"></ul>'
+    );*/
+
+    $selection.html(
+      '<div class="select2-selection__rendered"></div>'
     );
 
     return $selection;
@@ -76,6 +80,15 @@ define([
       return;
     }
 
+    var strings = [];
+    for (var d = 0; d < data.length; d++) {
+      strings[d] = this.display(data[d]);
+    }
+    this.$selection
+	.find('.select2-selection__rendered')
+	.append(strings.join(', '));
+
+    /*
     var $selections = $();
 
     for (var d = 0; d < data.length; d++) {
@@ -93,6 +106,7 @@ define([
     }
 
     this.$selection.find('.select2-selection__rendered').append($selections);
+    */
   };
 
   return MultipleSelection;

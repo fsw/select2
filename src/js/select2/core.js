@@ -10,7 +10,7 @@ define([
     }
 
     this.$element = $element;
-
+    //alert('asd');
     this.id = this._generateId($element);
 
     options = options || {};
@@ -313,7 +313,11 @@ define([
           self.trigger('results:next');
 
           evt.preventDefault();
-        } else if (key === KEYS.ESC || key === KEYS.TAB) {
+        } else if (key === KEYS.ESC) {
+	  self.close(true);
+
+          evt.preventDefault();
+	} else if (key === KEYS.TAB) {
           self.close();
 
           evt.preventDefault();
@@ -398,11 +402,13 @@ define([
     this.trigger('open');
   };
 
-  Select2.prototype.close = function () {
+  Select2.prototype.close = function (cancel) {
     if (!this.isOpen()) {
       return;
     }
-
+    if (cancel !== true){
+      this.trigger('results:select');
+    }
     this.trigger('close');
   };
 
