@@ -406,8 +406,10 @@ define([
     if (!this.isOpen()) {
       return;
     }
-    if (cancel !== true){
-      this.trigger('results:select');
+    if (cancel !== true) {
+      if (this.options.get('tags')) {
+        this.trigger('results:select');
+      }
     }
     this.trigger('close');
   };
