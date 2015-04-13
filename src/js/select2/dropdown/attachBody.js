@@ -184,6 +184,9 @@ define([
     this.$dropdown.css({
       width: this.$container.outerWidth(false) + 'px'
     });
+    this.$dropdown.find('.select2-results').css({
+      width: this.$container.outerWidth(false) + 'px'
+    });
   };
 
   AttachBody.prototype._showDropdown = function (decorated) {

@@ -76,6 +76,9 @@ define([
       });
     });
 
+    if(this.options.get('useNativeSelect')) {
+	$element.addClass('mobile-device').appendTo($container);
+    }
     // Hide the original select
     $element.hide();
 

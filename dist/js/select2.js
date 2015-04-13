@@ -1707,6 +1707,7 @@ S2.define('select2/selection/allowClear',[
 
     if (this.$selection.find('.select2-selection__placeholder').length > 0 ||
         data.length === 0) {
+      this.$selection.removeClass('has-clear-button');
       return;
     }
 
@@ -1715,7 +1716,8 @@ S2.define('select2/selection/allowClear',[
     );
     $remove.data('data', data);
 
-    this.$selection.find('.select2-selection__rendered').prepend($remove);
+    this.$selection.addClass('has-clear-button')
+      .find('.select2-selection__rendered') .prepend($remove);
   };
 
   return AllowClear;
@@ -4066,6 +4068,9 @@ S2.define('select2/dropdown/attachBody',[
     this.$dropdown.css({
       width: this.$container.outerWidth(false) + 'px'
     });
+    this.$dropdown.find('.select2-results').css({
+      width: this.$container.outerWidth(false) + 'px'
+    });
   };
 
   AttachBody.prototype._showDropdown = function (decorated) {
@@ -4791,6 +4796,9 @@ S2.define('select2/core',[
       });
     });
 
+    if(this.options.get('useNativeSelect')) {
+	$element.addClass('mobile-device').appendTo($container);
+    }
     // Hide the original select
     $element.hide();
 

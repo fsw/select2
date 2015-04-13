@@ -54,6 +54,7 @@ define([
 
     if (this.$selection.find('.select2-selection__placeholder').length > 0 ||
         data.length === 0) {
+      this.$selection.removeClass('has-clear-button');
       return;
     }
 
@@ -62,7 +63,8 @@ define([
     );
     $remove.data('data', data);
 
-    this.$selection.find('.select2-selection__rendered').prepend($remove);
+    this.$selection.addClass('has-clear-button')
+      .find('.select2-selection__rendered') .prepend($remove);
   };
 
   return AllowClear;
