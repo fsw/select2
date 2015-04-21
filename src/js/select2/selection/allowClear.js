@@ -45,7 +45,8 @@ define([
 
         self.$element.val(self.placeholder.id).trigger('change');
 
-        self.trigger('toggle');
+	//dont reopen select when it is cleared
+        //self.trigger('toggle');
     });
   };
 
@@ -64,7 +65,7 @@ define([
     $remove.data('data', data);
 
     this.$selection.addClass('has-clear-button')
-      .find('.select2-selection__rendered') .prepend($remove);
+      .find('.select2-selection__rendered').prepend($remove);
   };
 
   return AllowClear;
